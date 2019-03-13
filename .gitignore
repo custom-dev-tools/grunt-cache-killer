@@ -1,0 +1,8 @@
+# PhpStorm IDE workspace file.
+/.idea/
+
+# Node modules directory.
+/node_modules/
+
+# Temporary test files.
+/tests/functional/actual/
