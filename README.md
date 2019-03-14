@@ -35,13 +35,15 @@ In your project's Gruntfile, add a section named `cacheKiller` to the data objec
 ```js
 grunt.initConfig({
   cacheKiller: {
-    taskName: {
+    options: {
       // Options
     },
-    files: {
-      // Asset filename : // Template filename(s)
-    },
-  },
+    taskName: {
+      files: {
+        'asset/path/filename.css': ['template/path/filename-1.html', 'template/path/filename-2.html']
+      }
+    }
+  }
 });
 ```
 
@@ -78,18 +80,18 @@ In this example, the default options are used.
 ```js
 grunt.initConfig({
   cacheKiller: {
-    taskName: {
-      options: {
-        prepend: '',
-        append: '',
-        mask: '{md5}',
-        length: -1
-        },
-      files: {
-        'public/css/app[mask].min.css': 'app/views/templates/master.html',
-      },
+    options: {
+      prepend: '',
+      append: '',
+      mask: '{md5}',
+      length: -1
     },
-  },
+    taskName: {
+      files: {
+        'public/css/app[mask].min.css': ['app/views/templates/master.html']
+      }
+    }
+  }
 });
 ```
 
@@ -128,19 +130,19 @@ In this example, custom options are used
 ```js
 grunt.initConfig({
   cacheKiller: {
-    taskName: {
-      options: {
-        prepend: '-',
-        append: '.dev',
-        mask: '{md5}',
-        length: 8
-        },
-      files: {
-        'public/css/app[mask].min.css': 'app/views/templates/master.html',
-        'public/js/app[mask].min.js': 'app/views/templates/master.html'
-      },
+    options: {
+      prepend: '-',
+      append: '.dev',
+      mask: '{md5}',
+      length: 8
     },
-  },
+    taskName: {
+      files: {
+        'public/css/app[mask].min.css': ['app/views/templates/master.html'],
+        'public/js/app[mask].min.js': ['app/views/templates/master.html']
+      }
+    }
+  }
 });
 ```
 
@@ -182,6 +184,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-|    Date    | Version |  Comments       |
-| :--------: | :-----: | :---------------|
-| 01-03-2019 | 1.0.0   | Initial commit. |
+|    Date    | Version |  Comments                                   |
+| :--------: | :-----: | :-------------------------------------------|
+| 01-03-2019 | 1.0.0   | Initial commit.                             |
+| 14-03-2019 | 1.0.1   | Fixed incorrect counter reference in loop.  |
+|            |         | Updated README.md reflecting correct usage. |

@@ -208,7 +208,7 @@ module.exports = function (grunt) {
             // Check if the template file(s) exist.
             for (var k = 0; k < $tasks[j].templates.length; k++) {
                 if (!fileSystem.existsSync($tasks[j].templates[k])) {
-                    grunt.fail.warn('cacheKiller -> ' + this.target + ' : The template file \'' + $tasks[i].templates[k] + '\' does not exist.');
+                    grunt.fail.warn('cacheKiller -> ' + this.target + ' : The template file \'' + $tasks[j].templates[k] + '\' does not exist.');
                 }
             }
 
