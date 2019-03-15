@@ -184,8 +184,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-|    Date    | Version |  Comments                                   |
-| :--------: | :-----: | :-------------------------------------------|
-| 01-03-2019 | 1.0.0   | Initial commit.                             |
-| 14-03-2019 | 1.0.1   | Fixed incorrect counter reference in loop.  |
-|            |         | Updated README.md reflecting correct usage. |
+|    Date    | Version |  Comments                                                                                                        |
+| :--------: | :-----: | :----------------------------------------------------------------------------------------------------------------|
+| 01-03-2019 | 1.0.0   | <ul><li>Initial commit.</li></ul>                                                                                |
+| 14-03-2019 | 1.0.1   | <ul><li>Fixed incorrect counter reference in loop.</li><li>Updated README.md reflecting correct usage.</li></ul> |
+| 15-03-2019 | 1.0.2   | <ul><li>Added ability to replace asset name in template(s) even when asset name is out of sync.</li></ul>        |

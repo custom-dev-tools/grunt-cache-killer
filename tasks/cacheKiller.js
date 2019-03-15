@@ -225,7 +225,7 @@ module.exports = function (grunt) {
                 var content = fileSystem.readFileSync($tasks[j].templates[l], 'utf8');
 
                 // Replace the template's matching content.
-                var result = content.replace(new RegExp($tasks[j].asset.rename.from.file, "g"), $tasks[j].asset.rename.to.file);
+                var result = content.replace(new RegExp($tasks[j].asset.name.pre + '.*' + $tasks[j].asset.name.post, "g"), $tasks[j].asset.rename.to.file);
 
                 // Synchronously write the contents to the template.
                 fileSystem.writeFileSync($tasks[j].templates[l], result, 'utf8');
