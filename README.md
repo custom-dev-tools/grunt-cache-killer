@@ -6,7 +6,9 @@ Then look no further...!
 
 This grunt plugin inserts a **cache avoiding** string into your asset filename, then looks for and updates any reference to it within your template file(s).
 
-Find this npm plugin at  [https://www.npmjs.com/package/grunt-cache-killer](https://www.npmjs.com/package/grunt-cache-killer).
+Find this plugin at:
+  - [https://www.npmjs.com/package/grunt-cache-killer](https://www.npmjs.com/package/grunt-cache-killer).
+  - [https://github.com/midnight-coding/grunt-cache-killer](https://github.com/midnight-coding/grunt-cache-killer).
 
 ## Getting Started
 
@@ -57,7 +59,16 @@ grunt.initConfig({
   - If a **cacherKiller** mask function is used, then the string generated from that internal function is inserted. CacheKiller's mask functions include:
     - `{timestamp}` eg: `1551278199614`
     - `{datetimestamp}` eg: `20190228123639`
-    - `{md5}` eg: `70a1d7fe6502fa887f5b810d9063da07`
+    - All [OpenSSL](https://www.openssl.org/) algorithms available on your system. Some common algorithims include:
+      - `{md4}` eg: `1f73e014cf3341a8b0715b27c031b188`
+      - `{md5}` eg: `70a1d7fe6502fa887f5b810d9063da07`
+      - `{sha1}` eg: `a20a181e3C2a813ae08c22fb9d61133c315517bb`
+      - `{sha224}` eg: `d157aefcf36cdc966737aa0dc4ea85d720652185550c248de9d018f9`
+      - `{sha256}` eg: `8736ba042ee82bc70676c964b6f7b05e063e1957c95Cb80e4f15f8b01e69c9ad`
+      
+      For a full list of available algorithms, at the command prompt type `openssl list -digest-algorithms`.<br>
+      For older versions of OpenSSL, at the command prompt type `openssl list-message-digest-algorithms`.<br>
+     
   - If a **string** is used, then that string is inserted. eg: `mask: 'my-string'`
 
 - `length` (number) - A number value that is used to set the length of the mask. The default value is `-1`.
@@ -184,8 +195,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-|    Date    | Version |  Comments                                                                                                        |
-| :--------: | :-----: | :----------------------------------------------------------------------------------------------------------------|
-| 01-03-2019 | 1.0.0   | <ul><li>Initial commit.</li></ul>                                                                                |
-| 14-03-2019 | 1.0.1   | <ul><li>Fixed incorrect counter reference in loop.</li><li>Updated README.md reflecting correct usage.</li></ul> |
-| 15-03-2019 | 1.0.2   | <ul><li>Added ability to replace asset name in template(s) even when asset name is out of sync.</li></ul>        |
+Find more on the release history at:
+
+[https://github.com/midnight-coding/grunt-cache-killer/blob/master/CHANGELOG.md](https://github.com/midnight-coding/grunt-cache-killer/blob/master/CHANGELOG.md).

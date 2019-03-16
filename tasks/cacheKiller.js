@@ -9,7 +9,7 @@
 'use strict';
 
 // Load the required dependencies.
-var md5File = require('md5-file');
+var crypto = require('crypto');
 var fileSystem = require('fs');
 
 // Grunt task module.
@@ -63,13 +63,31 @@ module.exports = function (grunt) {
         }
 
         /**
-         * Get md5 of file.
+         * Get hash of file.
          *
          * @param $file {string}
+         * @param $algorithm {string}
          * @returns {string}
          */
-        function getMd5($file) {
-            return md5File.sync($file);
+        function getHash($file, $algorithm) {
+            var $length = 8192;
+            var $fileDescriptor = fileSystem.openSync($file, 'r');
+            var $hash = crypto.createHash($algorithm);
+            var $buffer = Buffer.alloc($length);
+
+            try {
+                var $bytesRead;
+
+                do {
+                    $bytesRead = fileSystem.readSync($fileDescriptor, $buffer, 0, $length, 0);
+
+                    $hash.update($buffer.slice(0, $bytesRead));
+                } while ($bytesRead === $length);
+            } finally {
+                fileSystem.closeSync($fileDescriptor);
+            }
+
+            return $hash.digest('hex');
         }
 
         /**
@@ -77,20 +95,26 @@ module.exports = function (grunt) {
          *
          * @param $maskType {string}
          * @param $file     {string}
-         * @param $value    {string}
          * @returns {string}
          */
-        function getMaskValue($maskType, $file, $value) {
-            switch ($maskType) {
-                case '{timestamp}':
-                    return getTimeStamp().toString();
-                case '{datetimestamp}':
-                    return getDateTimeStamp();
-                case '{md5}':
-                    return getMd5($file);
-                default:
-                    return $value;
+        function getMaskValue($maskType, $file) {
+            // If using a timestamp.
+            if ($maskType === '{timetsmap}') {
+                return getTimeStamp.toString();
             }
+
+            // If using a datetime stamp.
+            if($maskType === '{datetimestamp}') {
+                return getDateTimeStamp();
+            }
+
+            // If using an OpenSSL digest algorithm.
+            if (/{.*}/.test($maskType)) {
+                return getHash($file, $maskType.replace(new RegExp(/[{}]/, 'g'), ""));
+            }
+
+            // Just a string.
+            return $maskType;
         }
 
         /**
@@ -183,7 +207,7 @@ module.exports = function (grunt) {
 
             $tasks[i].asset.mask.prepend = $options.prepend;
             $tasks[i].asset.mask.value = {};
-            $tasks[i].asset.mask.value.raw = getMaskValue($options.mask, $tasks[i].asset.rename.from.full, $options.mask);
+            $tasks[i].asset.mask.value.raw = getMaskValue($options.mask, $tasks[i].asset.rename.from.full);
             $tasks[i].asset.mask.value.computed = trimByLength($tasks[i].asset.mask.value.raw, $options.length);
             $tasks[i].asset.mask.apend = $options.append;
 

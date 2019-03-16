@@ -1,7 +1,7 @@
 {
   "name": "grunt-cache-killer",
   "description": "Kill your asset cache file problems by updating their filenames and any references to them.",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "homepage": "https://github.com/midnight-coding/grunt-cache-killer",
   "author": {
     "name": "Matthew Rath",
@@ -27,9 +27,6 @@
     "grunt-contrib-nodeunit": "^2.0.0",
     "grunt-contrib-watch": "^1.1.0",
     "load-grunt-tasks": "^4.0.0"
-  },
-  "dependencies": {
-    "md5-file": "^4.0.0"
   },
   "keywords": [
     "gruntplugin",
