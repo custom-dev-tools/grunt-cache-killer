@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                 var $bytesRead;
 
                 do {
-                    $bytesRead = fileSystem.readSync($fileDescriptor, $buffer, 0, $length, 0);
+                    $bytesRead = fileSystem.readSync($fileDescriptor, $buffer, 0, $length, null);
 
                     $hash.update($buffer.slice(0, $bytesRead));
                 } while ($bytesRead === $length);
