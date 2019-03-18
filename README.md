@@ -4,7 +4,7 @@ Ever wanted to ensure that your most recently deployed asset files (eg: css, js,
 
 Then look no further...!
 
-This grunt plugin inserts a **cache avoiding** string into your asset filename, then looks for and updates any reference to it within your template file(s).
+This [Grunt](https://gruntjs.com/) plugin inserts a **cache avoiding** string into your asset filename, then looks for and updates any reference to it within your template file(s).
 
 Find this plugin at:
   - [https://www.npmjs.com/package/grunt-cache-killer](https://www.npmjs.com/package/grunt-cache-killer).
@@ -12,7 +12,7 @@ Find this plugin at:
 
 ## Getting Started
 
-This plugin requires Grunt `~1.0.3`
+This plugin requires Grunt `^1.0.3`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as how to install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -26,8 +26,8 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-cache-killer');
 ```
 
-Alternatively, install the 'load-grunt-tasks' plug (`npm install --save-dev load-grunt-tasks`) and add the following line of code to your gruntfile.js `require('load-grunt-tasks')(grunt);` to automatically load your plugin(s).
-
+Alternatively, install the [load-grunt-tasks](https://www.npmjs.com/package/load-grunt-tasks) plugin to have cacheKiller load automatically.
+ 
 ## The "cacheKiller" task
 
 ### Overview
@@ -51,12 +51,14 @@ grunt.initConfig({
 
 ### Options
 
-- `prepend` (string) - A string value that is used to add characters to the front of the `[mask]`. The default value is an empty string.
+- `prepend` (string) - A string value that is used to add characters to the front of the `[mask]` placeholder. The default value is an empty string.
 
-- `append` (string) - A string value that is used to add characters to the back of the `[mask]`. The default value is an empty string.
+- `append` (string) - A string value that is used to add characters to the back of the `[mask]` placeholder. The default value is an empty string.
 
 - `mask` (string) - A string value that is used to specify the passed in mask. The default value is `{md5}`.
-  - If a **cacherKiller** mask function is used, then the string generated from that internal function is inserted. CacheKiller's mask functions include:
+  - If a **cacherKiller** mask function is used, then the string generated from that function will be inserted. If an invalid mask function is used, then an error message along with a full list of valid mask functions will be shown.
+    
+    CacheKiller's mask functions include:
     - `{timestamp}` eg: `1551278199614`
     - `{datetimestamp}` eg: `20190228123639`
     - All [OpenSSL](https://www.openssl.org/) algorithms available on your system. Some common algorithims include:
@@ -65,10 +67,16 @@ grunt.initConfig({
       - `{sha1}` eg: `a20a181e3C2a813ae08c22fb9d61133c315517bb`
       - `{sha224}` eg: `d157aefcf36cdc966737aa0dc4ea85d720652185550c248de9d018f9`
       - `{sha256}` eg: `8736ba042ee82bc70676c964b6f7b05e063e1957c95Cb80e4f15f8b01e69c9ad`
+    
+        **Tip:** Use one of the below listed commands at the command prompt for a full list of available algorithms on your system.
+        ```
+        // For newer versions of OpenSSL.
+        openssl list -digest-algorithms
       
-      For a full list of available algorithms, at the command prompt type `openssl list -digest-algorithms`.<br>
-      For older versions of OpenSSL, at the command prompt type `openssl list-message-digest-algorithms`.<br>
-     
+        // For older versions of OpenSSL.
+        openssl list-message-digest-algorithms
+        ```
+           
   - If a **string** is used, then that string is inserted. eg: `mask: 'my-string'`
 
 - `length` (number) - A number value that is used to set the length of the mask. The default value is `-1`.
@@ -78,9 +86,9 @@ grunt.initConfig({
 
 ### Usage
 
-Within the cacheKiller's `files:`  node, place the `[mask]` within the asset filename where you would like the mask to be added.
+Within the cacheKiller's `files:`  node, place the `[mask]` placeholder within the asset filename where you would like the mask to be added.
 
-> **Warning** - Do not place the `[mask]` at the very beginning or very end of the asset filename. Doing so prevents cacheKiller from properly determining where the start or end of the asset filename exists within the template file(s).
+> **Note** - Do not place the `[mask]` placeholder at the very beginning or very end of the asset filename. (eg: `public/css/[mask].website.min.css`). Doing so would mangle the template file(s). CacheKiller prevents this from happening by showing an error message and terminating the script.
 
 ### Usage Examples
 

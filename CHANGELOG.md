@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.2.0]
+
+### Fixed
+- Validation of asset file name.
+
+### Added
+- Additional validation and error notification functionality.
+
+### Changed
+- README.md reflecting additional validation and error notification functionality.
+
 ## [1.1.1] - 2019-03-17
 
 ### Fixed
@@ -14,10 +25,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.1.0] - 2019-03-16
 
 ### Added
-- Added OpenSSL mask hash methods.
+- OpenSSL mask hash methods.
 
 ### Changed
-- Updated README.md reflecting additional mask hash methods.
+- README.md reflecting additional mask hash methods.
 
 ### Security
 - Removed dependency on 'md5-file' plugin.
@@ -25,7 +36,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.0.2] - 2019-03-15
 
 ### Added
-- Added ability to replace asset name in template(s) even when asset name is out of sync.
+- Ability to replace asset name in template(s) even when asset name is out of sync.
 
 ## [1.0.1] - 2019-03-14
 
@@ -33,7 +44,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Incorrect counter reference in loop.
 
 ### Changed
-- Updated README.md reflecting correct usage.
+- README.md reflecting correct usage.
 
 ## [1.0.0] - 2019-03-13
 

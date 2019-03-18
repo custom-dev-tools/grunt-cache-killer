@@ -65,7 +65,7 @@ module.exports = function (grunt) {
         /**
          * Get hash of file.
          *
-         * @param $file {string}
+         * @param $file      {string}
          * @param $algorithm {string}
          * @returns {string}
          */
@@ -91,30 +91,65 @@ module.exports = function (grunt) {
         }
 
         /**
-         * Get mask value.
+         * Check if the mask if a function.
          *
-         * @param $maskType {string}
-         * @param $file     {string}
+         * @param $mask (string)
+         * @returns {boolean}
+         */
+        function isMaskFunction($mask) {
+            return ($mask.substr(0, 1) === '{' && $mask.substr(-1) === '}');
+        }
+
+        /**
+         * Trim the curly braces from the mask function.
+         *
+         * @param $mask (string}
          * @returns {string}
          */
-        function getMaskValue($maskType, $file) {
-            // If using a timestamp.
-            if ($maskType === '{timetsmap}') {
-                return getTimeStamp.toString();
-            }
+        function trimMaskFunction($mask) {
+            return $mask.slice(1, -1);
+        }
 
-            // If using a datetime stamp.
-            if($maskType === '{datetimestamp}') {
-                return getDateTimeStamp();
-            }
+        /**
+         * Check for a valid mask function.
+         *
+         * @param  $maskFunction  {string}
+         * @param  $maskFunctions {array}
+         * @returns {boolean}
+         */
+        function isValidMaskFunction($maskFunction, $maskFunctions) {
+            return ($maskFunctions.indexOf($maskFunction)) > -1;
+        }
 
-            // If using an OpenSSL digest algorithm.
-            if (/{.*}/.test($maskType)) {
-                return getHash($file, $maskType.replace(new RegExp(/[{}]/, 'g'), ""));
+        /**
+         * Get mask value.
+         *
+         * @param $mask {string}
+         * @param $file {string}
+         * @returns {string}
+         */
+        function getMaskValue($mask, $file) {
+            // Check if a mask function is being used.
+            if (isMaskFunction($mask)) {
+                // Trim the curly braces from the mask function.
+                $mask = trimMaskFunction($mask);
+
+                // If using a timestamp.
+                if ($mask === 'timestamp') {
+                    return getTimeStamp().toString();
+                }
+
+                // If using a datetime stamp.
+                if ($mask === 'datetimestamp') {
+                    return getDateTimeStamp();
+                }
+
+                // Using an OpenSSL digest algorithm.
+                return getHash($file, $mask);
             }
 
             // Just a string.
-            return $maskType;
+            return $mask;
         }
 
         /**
@@ -143,13 +178,13 @@ module.exports = function (grunt) {
             // Iterate over the asset filename(s).
             for (var i = 0; i < $files.length; i++) {
                 // Check if the pre and post strings match the start and end parts of the asset filename respectively.
-                if ($pre === $files[i].substring(0, $pre.length) && $post === $files[i].substring($files[i].length - $post.length)) {
-                    // A match was found.
+                if ($pre === $files[i].substr(0, $pre.length) && $post === $files[i].substr(-$post.length)) {
+                    // A matching asset was found.
                     return $files[i];
                 }
             }
 
-            // A match was not found.
+            // A matching asset was not found.
             return null;
         }
 
@@ -174,12 +209,26 @@ module.exports = function (grunt) {
         // Set the default mask placeholder.
         var $maskPlaceholder = '[mask]';
 
-        // Validate the options.
+        // Set the valid mask functions types.
+        var $validMaskFunctionTypes = ['timestamp', 'datetimestamp'].concat(crypto.getHashes()).sort(function (a, b) {
+            return a.localeCompare(b, undefined, {sensitivity: 'base'});
+        });
+
+        // Validate the options types.
         for (var $key in $validOptionsTypes) {
             // Check if the option type is incorrect.
             if (typeof ($options[$key]) !== $validOptionsTypes[$key]) {
-                grunt.fail.warn('cacheKiller -> ' + this.target + ' -> options -> ' + $key + ' must be a ' + $validOptionsTypes[$key] + '. ' + typeof ($options[$key]) + ' given.');
+                // Capitalise the first letter.
+                var $type = typeof ($options[$key]);
+                $type = $type.charAt(0).toUpperCase() + $type.slice(1);
+
+                grunt.fail.warn(this.target + ' : The option \'' + $key + '\' must be a ' + $validOptionsTypes[$key] + '. ' + $type + ' given.');
             }
+        }
+
+        // Validate the mask function type.
+        if (isMaskFunction($options.mask) && !isValidMaskFunction(trimMaskFunction($options.mask), $validMaskFunctionTypes)) {
+            grunt.fail.warn(this.target + ' : The options mask \'' + $options.mask + '\' is not a valid mask. Valid masks include ' + $validMaskFunctionTypes.join(', ') + '.');
         }
 
         // Build the tasks list.
@@ -202,8 +251,18 @@ module.exports = function (grunt) {
             $tasks[i].asset.name.pre = $tasks[i].asset.name.file.split($maskPlaceholder)[0];
             $tasks[i].asset.name.post = $tasks[i].asset.name.file.split($maskPlaceholder)[1];
 
+            // Check the position of the mask placeholder within the asset filename.
+            if ($tasks[i].asset.name.pre === '' || $tasks[i].asset.name.post === '') {
+                grunt.fail.warn(this.target + ' : The position of the [mask] placeholder cannot be at the very beginning or very end of the asset filename. \'' + $tasks[i].asset.name.full + '\' given.');
+            }
+
             $tasks[i].asset.rename.from.file = findMatchingAsset($tasks[i].asset.name.base, $tasks[i].asset.name.pre, $tasks[i].asset.name.post);
             $tasks[i].asset.rename.from.full = $tasks[i].asset.name.base + $tasks[i].asset.rename.from.file;
+
+            // Check if the asset filename exists.
+            if ($tasks[i].asset.rename.from.file === null) {
+                grunt.fail.warn(this.target + ' : The masked asset file \'' + $tasks[i].asset.name.full + '\' does not exist.');
+            }
 
             $tasks[i].asset.mask.prepend = $options.prepend;
             $tasks[i].asset.mask.value = {};
@@ -217,22 +276,14 @@ module.exports = function (grunt) {
 
         // Let's begin.
         grunt.log.writeln('');
-        grunt.log.writeln('-----------');
-        grunt.log.writeln('cacheKiller');
-        grunt.log.writeln('-----------');
 
         // Iterate over the tasks list.
         for (var j = 0; j < Object.keys($tasks).length; j++) {
 
-            // Check if the asset file exists.
-            if ($tasks[j].asset.rename.from.full === null) {
-                grunt.fail.warn('cacheKiller -> ' + this.target + ' : The masked asset file \'' + $tasks[j].asset.name.full + '\' does not exist.');
-            }
-
-            // Check if the template file(s) exist.
+            // Check if the template filename(s) exist.
             for (var k = 0; k < $tasks[j].templates.length; k++) {
                 if (!fileSystem.existsSync($tasks[j].templates[k])) {
-                    grunt.fail.warn('cacheKiller -> ' + this.target + ' : The template file \'' + $tasks[j].templates[k] + '\' does not exist.');
+                    grunt.fail.warn(this.target + ' : The template file \'' + $tasks[j].templates[k] + '\' does not exist.');
                 }
             }
 
@@ -240,7 +291,7 @@ module.exports = function (grunt) {
             fileSystem.renameSync($tasks[j].asset.rename.from.full, $tasks[j].asset.rename.to.full);
 
             // Show the successful asset renaming message.
-            grunt.log.ok(this.target + ' : Asset file \'' + $tasks[j].asset.rename.from.file + '\' renamed to \'' + $tasks[j].asset.rename.to.file + '\'');
+            grunt.log.ok(this.target + ' : Asset file \'' + $tasks[j].asset.rename.from.file + '\' renamed to \'' + $tasks[j].asset.rename.to.file + '\'.');
 
             // Update any reference to the asset file in the template file(s).
             for (var l = 0; l < $tasks[j].templates.length; l++) {
@@ -255,7 +306,7 @@ module.exports = function (grunt) {
                 fileSystem.writeFileSync($tasks[j].templates[l], result, 'utf8');
 
                 // Show the successful template update message.
-                grunt.log.ok(this.target + ' : Reference updated in template file \'' + $tasks[j].templates[l] + '\'.');
+                grunt.log.ok(this.target + ' : Reference(s) updated in template file \'' + $tasks[j].templates[l] + '\'.');
             }
 
             // Add line between target(s) and goodbye.
