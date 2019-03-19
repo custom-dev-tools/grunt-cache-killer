@@ -8,9 +8,10 @@
 
 'use strict';
 
-// Load the required dependencies.
+// Load the required Nodejs libraries.
 var crypto = require('crypto');
 var fileSystem = require('fs');
+var util = require('util');
 
 // Grunt task module.
 module.exports = function (grunt) {
@@ -190,6 +191,15 @@ module.exports = function (grunt) {
 
         // --------------------------------------------------------------------------------
 
+        // Debugging.
+        grunt.log.debug('');
+        grunt.log.debug('Debugging');
+        grunt.log.debug('---------');
+        grunt.log.debug('To assist in the debugging process, please copy the below and paste into your bug report. Thank you.\n');
+
+        // Set the default mask placeholder.
+        var $maskPlaceholder = '[mask]';
+
         // Set the valid option types.
         var $validOptionsTypes = {
             'prepend': 'string',
@@ -206,13 +216,16 @@ module.exports = function (grunt) {
             length: -1
         });
 
-        // Set the default mask placeholder.
-        var $maskPlaceholder = '[mask]';
+        // Debugging.
+        grunt.log.debug('Options object: ' + util.inspect($options, false, null, true) + '\n');
 
         // Set the valid mask functions types.
         var $validMaskFunctionTypes = ['timestamp', 'datetimestamp'].concat(crypto.getHashes()).sort(function (a, b) {
             return a.localeCompare(b, undefined, {sensitivity: 'base'});
         });
+
+        // Debugging.
+        grunt.log.debug('Validating option types.');
 
         // Validate the options types.
         for (var $key in $validOptionsTypes) {
@@ -226,10 +239,19 @@ module.exports = function (grunt) {
             }
         }
 
+        // Debugging.
+        grunt.log.debug('Success..!\n');
+        grunt.log.debug('Validating mask function type.');
+
         // Validate the mask function type.
         if (isMaskFunction($options.mask) && !isValidMaskFunction(trimMaskFunction($options.mask), $validMaskFunctionTypes)) {
             grunt.fail.warn(this.target + ' : The options mask \'' + $options.mask + '\' is not a valid mask. Valid masks include ' + $validMaskFunctionTypes.join(', ') + '.');
         }
+
+        // Debugging.
+        grunt.log.debug('Success..!\n');
+        grunt.log.debug('Building tasks list.');
+        grunt.log.debug('Working..!.\n');
 
         // Build the tasks list.
         var $tasks = {};
@@ -245,68 +267,112 @@ module.exports = function (grunt) {
             $tasks[i].asset.rename.to = {};
             $tasks[i].templates = this.files[i].orig.src;
 
+            // Debugging.
+            grunt.log.debug('Validating template filenames.');
+
+            // Check if the template filename(s) exist.
+            for (var j = 0; j < $tasks[i].templates.length; j++) {
+                if (!fileSystem.existsSync($tasks[i].templates[j])) {
+                    grunt.fail.warn(this.target + ' : The template file \'' + $tasks[i].templates[j] + '\' does not exist.');
+                }
+            }
+
+            // Debugging.
+            grunt.log.debug('Success..!\n');
+
             $tasks[i].asset.name.full = this.files[i].orig.dest;
             $tasks[i].asset.name.base = getBase($tasks[i].asset.name.full);
             $tasks[i].asset.name.file = getFile($tasks[i].asset.name.full);
             $tasks[i].asset.name.pre = $tasks[i].asset.name.file.split($maskPlaceholder)[0];
             $tasks[i].asset.name.post = $tasks[i].asset.name.file.split($maskPlaceholder)[1];
 
-            // Check the position of the mask placeholder within the asset filename.
+            // Debugging.
+            grunt.log.debug('Validating position of mask placeholder.');
+
+            // Check if the position of the mask placeholder within the asset filename is valid.
             if ($tasks[i].asset.name.pre === '' || $tasks[i].asset.name.post === '') {
                 grunt.fail.warn(this.target + ' : The position of the [mask] placeholder cannot be at the very beginning or very end of the asset filename. \'' + $tasks[i].asset.name.full + '\' given.');
             }
 
+            // Debugging.
+            grunt.log.debug('Success..!\n');
+
             $tasks[i].asset.rename.from.file = findMatchingAsset($tasks[i].asset.name.base, $tasks[i].asset.name.pre, $tasks[i].asset.name.post);
             $tasks[i].asset.rename.from.full = $tasks[i].asset.name.base + $tasks[i].asset.rename.from.file;
+
+            // Debugging.
+            grunt.log.debug('Validating asset filename.');
 
             // Check if the asset filename exists.
             if ($tasks[i].asset.rename.from.file === null) {
                 grunt.fail.warn(this.target + ' : The masked asset file \'' + $tasks[i].asset.name.full + '\' does not exist.');
             }
 
+            // Debugging.
+            grunt.log.debug('Success..!\n');
+
             $tasks[i].asset.mask.prepend = $options.prepend;
             $tasks[i].asset.mask.value = {};
             $tasks[i].asset.mask.value.raw = getMaskValue($options.mask, $tasks[i].asset.rename.from.full);
             $tasks[i].asset.mask.value.computed = trimByLength($tasks[i].asset.mask.value.raw, $options.length);
-            $tasks[i].asset.mask.apend = $options.append;
+            $tasks[i].asset.mask.append = $options.append;
 
-            $tasks[i].asset.rename.to.file = $tasks[i].asset.name.pre + $options.prepend + $tasks[i].asset.mask.value.computed + $options.append + $tasks[i].asset.name.post;
+            $tasks[i].asset.rename.to.file = $tasks[i].asset.name.pre + $tasks[i].asset.mask.prepend + $tasks[i].asset.mask.value.computed + $tasks[i].asset.mask.append + $tasks[i].asset.name.post;
             $tasks[i].asset.rename.to.full = $tasks[i].asset.name.base + $tasks[i].asset.rename.to.file;
         }
+
+        // Debugging.
+        grunt.log.debug('Build tasks list.');
+        grunt.log.debug('Success..!\n');
+        grunt.log.debug('Tasks list object:\n' + util.inspect($tasks, false, null, true) + '\n');
 
         // Let's begin.
         grunt.log.writeln('');
 
         // Iterate over the tasks list.
-        for (var j = 0; j < Object.keys($tasks).length; j++) {
+        for (var k = 0; k < Object.keys($tasks).length; k++) {
 
-            // Check if the template filename(s) exist.
-            for (var k = 0; k < $tasks[j].templates.length; k++) {
-                if (!fileSystem.existsSync($tasks[j].templates[k])) {
-                    grunt.fail.warn(this.target + ' : The template file \'' + $tasks[j].templates[k] + '\' does not exist.');
-                }
-            }
+            // Debugging.
+            grunt.log.debug('Synchronously renaming asset file.');
 
             // Synchronously rename the asset file.
-            fileSystem.renameSync($tasks[j].asset.rename.from.full, $tasks[j].asset.rename.to.full);
+            fileSystem.renameSync($tasks[k].asset.rename.from.full, $tasks[k].asset.rename.to.full);
+
+            // Debugging.
+            grunt.log.debug('Success..!\n');
 
             // Show the successful asset renaming message.
-            grunt.log.ok(this.target + ' : Asset file \'' + $tasks[j].asset.rename.from.file + '\' renamed to \'' + $tasks[j].asset.rename.to.file + '\'.');
+            grunt.log.ok(this.target + ' : Asset file \'' + $tasks[k].asset.rename.from.file + '\' renamed to \'' + $tasks[k].asset.rename.to.file + '\'.');
 
             // Update any reference to the asset file in the template file(s).
-            for (var l = 0; l < $tasks[j].templates.length; l++) {
+            for (var l = 0; l < $tasks[k].templates.length; l++) {
+
+                // Debugging.
+                grunt.log.debug('');
+                grunt.log.debug('Synchronously read contents of template.');
 
                 // Synchronously read the contents of the template.
-                var content = fileSystem.readFileSync($tasks[j].templates[l], 'utf8');
+                var content = fileSystem.readFileSync($tasks[k].templates[l], 'utf8');
+
+                // Debugging.
+                grunt.log.debug('Success..!\n');
+                grunt.log.debug('Replace template\'s matching content.');
 
                 // Replace the template's matching content.
-                var result = content.replace(new RegExp($tasks[j].asset.name.pre + '.*' + $tasks[j].asset.name.post, "g"), $tasks[j].asset.rename.to.file);
+                var result = content.replace(new RegExp($tasks[k].asset.name.pre + '.*' + $tasks[k].asset.name.post, "g"), $tasks[k].asset.rename.to.file);
+
+                // Debugging.
+                grunt.log.debug('Success..!\n');
+                grunt.log.debug('Synchronously write contents to template.');
 
                 // Synchronously write the contents to the template.
-                fileSystem.writeFileSync($tasks[j].templates[l], result, 'utf8');
+                fileSystem.writeFileSync($tasks[k].templates[l], result, 'utf8');
+
+                // Debugging.
+                grunt.log.debug('Success..!\n');
 
                 // Show the successful template update message.
-                grunt.log.ok(this.target + ' : Reference(s) updated in template file \'' + $tasks[j].templates[l] + '\'.');
+                grunt.log.ok(this.target + ' : Reference(s) updated in template file \'' + $tasks[k].templates[l] + '\'.');
             }
 
             // Add line between target(s) and goodbye.

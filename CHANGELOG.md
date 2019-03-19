@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-## [1.2.0]
+## [1.3.0] - 2019-03-20
+
+### Added
+- Debug logging functionality.
+
+### Changed
+- README.md reflecting addition of badges, TOC, limitations and new usage example.
+
+## [1.2.0] - 2019-03-18
 
 ### Fixed
 - Validation of asset file name.
