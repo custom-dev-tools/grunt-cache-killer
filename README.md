@@ -1,6 +1,8 @@
 # grunt-cache-killer
 
-[![NPM version](http://img.shields.io/npm/v/grunt-cache-killer.svg?label=grunt-cache-killer&logo=npm)](https://www.npmjs.com/package/grunt-cache-killer?activeTab=versions) ![Maintained](https://img.shields.io/static/v1.svg?label=maintened&message=yes&color=informational&logo=npm) ![NPM dependencies](https://img.shields.io/static/v1.svg?label=dependencies&message=none&color=informational&logo=npm) ![NPN downloads](http://img.shields.io/npm/dt/grunt-cache-killer.svg?logo=npm)
+[![Node version](https://img.shields.io/node/v/grunt-cache-killer.svg?label=node.js&color=informational&logo=npm)](https://nodejs.org/en/) [![Node version](https://img.shields.io/npm/dependency-version/grunt-cache-killer/dev/grunt.svg?label=grunt&logo=npm)](https://gruntjs.com/)
+
+[![NPM version](http://img.shields.io/npm/v/grunt-cache-killer.svg?label=grunt-cache-killer&logo=npm)](https://www.npmjs.com/package/grunt-cache-killer?activeTab=versions) ![Maintained](https://img.shields.io/static/v1.svg?label=maintained&message=yes&color=informational&logo=npm) ![NPM dependencies](https://img.shields.io/static/v1.svg?label=dependencies&message=none&color=informational&logo=npm) ![NPN downloads](http://img.shields.io/npm/dt/grunt-cache-killer.svg?logo=npm)
 
 [![GitHub version](https://img.shields.io/github/package-json/v/midnight-coding/grunt-cache-killer.svg?label=grunt-cache-killer&logo=github)](https://github.com/midnight-coding/grunt-cache-killer/releases) [![GitHub License](https://img.shields.io/github/license/midnight-coding/grunt-cache-killer.svg?color=informational&logo=github)](https://github.com/midnight-coding/grunt-cache-killer/blob/master/LICENSE-MIT) ![GitHub release date](https://img.shields.io/github/release-date/midnight-coding/grunt-cache-killer.svg?logo=github) [![GitHub open issues](https://img.shields.io/github/issues-raw/midnight-coding/grunt-cache-killer.svg?logo=github)](https://github.com/midnight-coding/grunt-cache-killer/milestones?state=open) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/midnight-coding/grunt-cache-killer.svg?logo=github)](https://github.com/midnight-coding/grunt-cache-killer/milestones?state=closed)
 
@@ -109,7 +111,7 @@ grunt.initConfig({
 - `length` (number) - A number value that is used to set the length of the mask. The default value is `-1`.
   - If the value of the number is negative (eg: `-1`) then the length of the given / generated string remains unchanged.
   - If the value of the number if positive (eg: `8`) then only that value of right-hand characters in the string will remain.
-  - If the value of the number is zero (eg: `0`) then the mask string (excluding the prepend and append strings) is not used. (ps: Considering the primary function of cacheKiller is to place masks within filenames, use of this value would be redundant exercise).
+  - If the value of the number is zero (eg: `0`) then the mask string (excluding the prepend and append strings) is not used. (ps: Considering the primary function of cacheKiller is to place masks within filenames, use of this value would be a redundant exercise).
 
 ### Usage
 
@@ -144,7 +146,7 @@ Implementation is simple. Within the cacheKiller's `files:`  node, place the `[m
   3. Within the cacheKiller task, move the asset filenames `[mask]` placeholder to it's new position.
   4. Run the cacheKiller task.
 
-- Do not rename the asset filename if you have already run cacheKiller against that asset filename. Doing so will show you an error message and terminate the script.<br><br>
+- Do not rename any fixed parts of the asset filename (ie: Parts outside the `[mask]` placeholder) if you have already run cacheKiller against that asset filename. Doing so will show you a 'file not found' error message and terminate the script.<br><br>
   If you need to retrospectively rename the asset filename, follow the below listed steps.
   1. Rename the asset filename to your new filename. eg: `new.website.min.css`.
   2. Update any and all references to the asset filename within the template file(s) using your new filename. eg: `new.website.min.css`.

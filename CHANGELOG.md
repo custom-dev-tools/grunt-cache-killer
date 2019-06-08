@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.1] - 2019-06-08
+
+### Updated
+- Version of js-yaml within dev dependencies to remove security vulnerabilities.
+
+### Added
+- Additional keywords to package.json
+
 ## [1.3.0] - 2019-03-20
 
 ### Added
