@@ -6,10 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.2] - 2019-08-29
+
+### Security
+- Updated version of lodash within dev dependencies to remove security vulnerability.
+- Updated version of set-value within dev dependencies to remove security vulnerability.
+- Updated version of mixin-dep within dev dependencies to remove security vulnerability.
+- Updated version of load-grunt-tasks within dev dependencies.
+
+### Added
+- Additional keywords to package.json
+
+### Changed
+- README.md reflecting new required grunt version.
+
 ## [1.3.1] - 2019-06-08
 
-### Updated
-- Version of js-yaml within dev dependencies to remove security vulnerabilities.
+### Security
+- Updated version of js-yaml within dev dependencies to remove security vulnerability.
 
 ### Added
 - Additional keywords to package.json

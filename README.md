@@ -2,7 +2,7 @@
 
 [![Node version](https://img.shields.io/node/v/grunt-cache-killer.svg?label=node.js&color=informational&logo=npm)](https://nodejs.org/en/) [![Node version](https://img.shields.io/npm/dependency-version/grunt-cache-killer/dev/grunt.svg?label=grunt&logo=npm)](https://gruntjs.com/)
 
-[![NPM version](http://img.shields.io/npm/v/grunt-cache-killer.svg?label=grunt-cache-killer&logo=npm)](https://www.npmjs.com/package/grunt-cache-killer?activeTab=versions) ![Maintained](https://img.shields.io/static/v1.svg?label=maintained&message=yes&color=informational&logo=npm) ![NPM dependencies](https://img.shields.io/static/v1.svg?label=dependencies&message=none&color=informational&logo=npm) ![NPN downloads](http://img.shields.io/npm/dt/grunt-cache-killer.svg?logo=npm)
+[![NPM version](http://img.shields.io/npm/v/grunt-cache-killer.svg?label=grunt-cache-killer&logo=npm)](https://www.npmjs.com/package/grunt-cache-killer?activeTab=versions) ![Maintained](https://img.shields.io/static/v1.svg?label=maintained&message=yes&color=informational&logo=npm) ![NPN downloads](http://img.shields.io/npm/dt/grunt-cache-killer.svg?logo=npm)
 
 [![GitHub version](https://img.shields.io/github/package-json/v/midnight-coding/grunt-cache-killer.svg?label=grunt-cache-killer&logo=github)](https://github.com/midnight-coding/grunt-cache-killer/releases) [![GitHub License](https://img.shields.io/github/license/midnight-coding/grunt-cache-killer.svg?color=informational&logo=github)](https://github.com/midnight-coding/grunt-cache-killer/blob/master/LICENSE-MIT) ![GitHub release date](https://img.shields.io/github/release-date/midnight-coding/grunt-cache-killer.svg?logo=github) [![GitHub open issues](https://img.shields.io/github/issues-raw/midnight-coding/grunt-cache-killer.svg?logo=github)](https://github.com/midnight-coding/grunt-cache-killer/milestones?state=open) [![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/midnight-coding/grunt-cache-killer.svg?logo=github)](https://github.com/midnight-coding/grunt-cache-killer/milestones?state=closed)
 
@@ -37,7 +37,7 @@ Find this plugin at:
 
 ## Getting Started
 
-This plugin requires Grunt `^1.0.3`
+This plugin requires Grunt `^1.0.4`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as how to install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
