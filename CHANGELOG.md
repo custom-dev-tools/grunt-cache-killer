@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.4] - 2020-03-18
+
+### Security
+- Updated version of grunt within dev dependencies from 1.0.4 to 1.1.0
+
+### Changed
+- README.md reflecting new required grunt version.
+
 ## [1.3.3] - 2020-03-18
 
 ### Security
