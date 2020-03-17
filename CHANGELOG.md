@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.3] - 2020-03-18
+
+### Security
+- Updated version of commander within dev dependencies from 2.20.0 to 2.20.3
+- Updated version of handlebars within dev dependencies from 4.1.2 to 4.7.3
+- Updated version of kind-of within dev dependencies from 6.0.2 to 6.0.3
+- Updated version of uglify-js within dev dependencies from 3.6.0 to 3.8.0
+
 ## [1.3.2] - 2019-08-29
 
 ### Security
