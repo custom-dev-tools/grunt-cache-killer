@@ -1,8 +1,8 @@
 /*
  * grunt-cache-killer
- * https://github.com/midnight-coding/grunt-cache-killer
+ * https://github.com/custom-dev-tools/grunt-cache-killer
  *
- * Copyright (c) 2019 Matthew Rath
+ * Copyright (c) 2020 Matthew Rath
  * Licensed under the MIT license.
  */
 

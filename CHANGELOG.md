@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.5] - 2020.06.19
+
+### Updated
+- Transferred ownership of package to @custom-dev-tools.
+
 ## [1.3.4] - 2020-03-18
 
 ### Security
