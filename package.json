@@ -1,11 +1,11 @@
 {
   "name": "grunt-cache-killer",
   "description": "Kill your asset cache file problems by updating their filenames and any references to them.",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "homepage": "https://github.com/custom-dev-tools/grunt-cache-killer",
   "author": {
     "name": "Matthew Rath",
-    "email": "matthew.rath@qclean.com.au"
+    "email": "matt@customdevtools.com"
   },
   "repository": {
     "type": "git",
