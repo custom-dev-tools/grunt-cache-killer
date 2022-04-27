@@ -1,8 +1,8 @@
 /*
  * grunt-cache-killer
- * https://github.com/midnight-coding/grunt-cache-killer
+ * https://github.com/custom-dev-tools/grunt-cache-killer
  *
- * Copyright (c) 2019 Matthew Rath
+ * Copyright (c) 2022 Matthew Rath
  * Licensed under the MIT license.
  */
 
@@ -57,7 +57,8 @@ module.exports = function (grunt) {
         // Functional tests setup.
         cacheKiller: {
             test1: {
-                files: {'tests/functional/actual/test1/css/website[mask].min.css': ['tests/functional/actual/test1/html/master.html']
+                files: {
+                    'tests/functional/actual/test1/css/website[mask].min.css': ['tests/functional/actual/test1/html/master.html']
                 }
             },
             test2: {
@@ -91,15 +92,22 @@ module.exports = function (grunt) {
                     'tests/functional/actual/test4/css/website[mask].min.css': ['tests/functional/actual/test4/html/master-1.html', 'tests/functional/actual/test4/html/master-2.html'],
                     'tests/functional/actual/test4/js/website[mask].min.js': ['tests/functional/actual/test4/html/master-1.html', 'tests/functional/actual/test4/html/master-2.html']
                 }
+            },
+            test5: {
+                options: {
+                    prepend: "-",
+                    append: ".dev",
+                    length: 8
+                },
+                files: {
+                    'tests/functional/actual/test5/css/website[mask].min.css': ['tests/functional/actual/test5/html/master.html']
+                }
             }
         },
 
         // Functional tests.
         nodeunit: {
-            test1: ['tests/functional/test1.js'],
-            test2: ['tests/functional/test2.js'],
-            test3: ['tests/functional/test3.js'],
-            test4: ['tests/functional/test4.js']
+            all: ['tests/functional/*.js']
         }
 
     });
