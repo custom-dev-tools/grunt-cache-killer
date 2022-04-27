@@ -2,7 +2,7 @@
  * grunt-cache-killer
  * https://github.com/custom-dev-tools/grunt-cache-killer
  *
- * Copyright (c) 2020 Matthew Rath
+ * Copyright (c) 2022 Matthew Rath
  * Licensed under the MIT license.
  */
 

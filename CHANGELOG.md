@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.6] - 2022.04.27
+
+### Fixed
+- Fixed README.md Github version number.
+- Updated year in Copyright lines.
+- Updated email address in package.json
+
 ## [1.3.5] - 2020.06.19
 
 ### Updated
