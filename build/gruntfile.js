@@ -102,6 +102,15 @@ module.exports = function (grunt) {
                 files: {
                     'tests/functional/actual/test5/css/website[mask].min.css': ['tests/functional/actual/test5/html/master.html']
                 }
+            },
+            test6: {
+                options: {
+                    prepend: ".",
+                    length: 8
+                },
+                files: {
+                    'tests/functional/actual/test6/css/style[mask].min.css': ['tests/functional/actual/test6/html/master.html']
+                }
             }
         },
 

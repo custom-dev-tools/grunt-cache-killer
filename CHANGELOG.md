@@ -6,10 +6,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.7] - 2022.08.20
+
+### Fixed
+- Fixed asset file renaming issue when updating template file(s).
+- Fixed incorrect test5 file name reference(s).
+
+### Added
+- Added test6 functionality, fixture and expected files.
+- Added funding to package.json file.
+
+### Updated
+- Updated minimum version of Node.js from 0.8.0 to 15.0.0
+- Updated version of grunt within dev dependencies from 1.1.0 to 1.5.3
+- Updated version of grunt-cli within dev dependencies from 1.3.2 to 1.4.3
+- Updated version of grunt-contrib-clean within dev dependencies from 2.0.0 to 2.0.1
+- Updated version of grunt-contrib-jshint within dev dependencies from 2.1.0 to 3.2.0
+- Updated version of grunt-contrib-nodeunit within dev dependencies from 2.0.0 to 4.0.0
+
 ## [1.3.6] - 2022.04.27
 
 ### Fixed
-- Fixed README.md Github version number.
+- Fixed README.md GitHub version number.
 - Updated year in Copyright lines.
 - Updated email address in package.json
 
