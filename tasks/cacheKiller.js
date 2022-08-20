@@ -55,12 +55,12 @@ module.exports = function (grunt) {
         function getDateTimeStamp() {
             var date = new Date();
 
-            return date.getFullYear().toString().padStart(2, "0") +
-                (date.getMonth() + 1).toString().padStart(2, "0") +
-                date.getDate().toString().padStart(2, "0") +
-                date.getHours().toString().padStart(2, "0") +
-                date.getMinutes().toString().padStart(2, "0") +
-                date.getSeconds().toString().padStart(2, "0");
+            return date.getFullYear().toString().padStart(2, '0') +
+                (date.getMonth() + 1).toString().padStart(2, '0') +
+                date.getDate().toString().padStart(2, '0') +
+                date.getHours().toString().padStart(2, '0') +
+                date.getMinutes().toString().padStart(2, '0') +
+                date.getSeconds().toString().padStart(2, '0');
         }
 
         /**
@@ -92,7 +92,7 @@ module.exports = function (grunt) {
         }
 
         /**
-         * Check if the mask if a function.
+         * Check if the mask is a function.
          *
          * @param $mask (string)
          * @returns {boolean}
@@ -178,7 +178,7 @@ module.exports = function (grunt) {
 
             // Iterate over the asset filename(s).
             for (var i = 0; i < $files.length; i++) {
-                // Check if the pre and post strings match the start and end parts of the asset filename respectively.
+                // Check if 'pre' and 'post' strings match the start and end parts of the asset filename respectively.
                 if ($pre === $files[i].substr(0, $pre.length) && $post === $files[i].substr(-$post.length)) {
                     // A matching asset was found.
                     return $files[i];
@@ -359,7 +359,7 @@ module.exports = function (grunt) {
                 grunt.log.debug('Replace template\'s matching content.');
 
                 // Replace the template's matching content.
-                var result = content.replace(new RegExp($tasks[k].asset.name.pre + '.*' + $tasks[k].asset.name.post, "g"), $tasks[k].asset.rename.to.file);
+                var result = content.replaceAll($tasks[k].asset.rename.from.file, $tasks[k].asset.rename.to.file);
 
                 // Debugging.
                 grunt.log.debug('Success..!\n');
